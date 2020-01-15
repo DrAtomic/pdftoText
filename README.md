@@ -8,7 +8,7 @@ pytesseract
 
 openCV
 
-`pip install PyPDF2 pytesseract opencv --user`
+`pip install PyPDF2 pytesseract opencv-python --user`
 
 * general dependencies
 tesseract
