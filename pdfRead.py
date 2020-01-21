@@ -12,6 +12,9 @@ pages = reader.getNumPages()
 
 for i in range(1,pages-1):
     page = reader.getPage(i)
+    temp = page.extractText()
+    with open("sample.txt", "a") as file_object:
+        file_object.write(temp)
     xObject = page['/Resources']['/XObject'].getObject()
 
     for obj in xObject:
@@ -56,3 +59,4 @@ for i in element:
         text_file = open(str(i)+'.m','w')
         n = text_file.write(text)
         text_file.close()
+
