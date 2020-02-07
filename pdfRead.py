@@ -5,8 +5,9 @@ import sys
 import cv2
 import pytesseract
 
-currentFolderNum = sys.argv[1][::-1].find('/')
-currentFolder = sys.argv[1][:-currentFolderNum]
+currentFolder = os.path.dirname(sys.argv[1])
+os.chdir(currentFolder)
+
 
 pdf = open(str(sys.argv[1]) , 'rb')
 reader = PyPDF2.PdfFileReader(pdf)
@@ -20,6 +21,7 @@ def imagetoText(img):
     text_file.close()
 
 
+
 for i in range(pages):
     page = reader.getPage(i)
     temp = page.extractText()
@@ -27,8 +29,11 @@ for i in range(pages):
     with open(x, "a") as file_object:
         file_object.write(temp)
     if '/XObject' in page['/Resources'].keys():
-        xObject = page['/Resources']['/XObject'].getObject()
-    
+        if'/Im1'in  page['/Resources']['/XObject']:
+            xObject = page['/Resources']['/XObject']['/Im1'].getObject
+        else:
+           #theres still some issues here 
+            xObject = page['/Resources']['/XObject'].getObject()
         for obj in xObject:
             if xObject[obj]['/Subtype'] == '/Image':
                 size = (xObject[obj]['/Width'], xObject[obj]['/Height'])
@@ -68,3 +73,4 @@ for i in range(pages):
                         imagetoText(x)
                 else:
                     print("No image found.")
+
